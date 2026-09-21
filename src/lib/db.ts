@@ -3,19 +3,26 @@ import fs from 'fs';
 import { DatabaseSync } from 'node:sqlite';
 import { CountyWeather } from '../types/weather';
 
-const DB_DIR = path.resolve(process.cwd(), 'data');
+const isVercel = process.env.VERCEL === '1';
+const DB_DIR = isVercel ? path.resolve('/tmp') : path.resolve(process.cwd(), 'data');
 const DB_PATH = path.resolve(DB_DIR, 'weather.db');
 
 let dbInstance: DatabaseSync | null = null;
 
 export function getDatabase(): DatabaseSync {
   if (!dbInstance) {
-    if (!fs.existsSync(DB_DIR)) {
-      fs.mkdirSync(DB_DIR, { recursive: true });
-    }
+    try {
+      if (!fs.existsSync(DB_DIR)) {
+        fs.mkdirSync(DB_DIR, { recursive: true });
+      }
 
-    dbInstance = new DatabaseSync(DB_PATH);
-    initSchema(dbInstance);
+      dbInstance = new DatabaseSync(DB_PATH);
+      initSchema(dbInstance);
+    } catch (err) {
+      console.warn('SQLite init warning (falling back to memory):', err);
+      dbInstance = new DatabaseSync(':memory:');
+      initSchema(dbInstance);
+    }
   }
   return dbInstance;
 }
