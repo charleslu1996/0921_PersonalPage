@@ -7,6 +7,7 @@ import RegionSelector from '@/components/RegionSelector';
 import WeatherCard from '@/components/WeatherCard';
 import TemperatureChart from '@/components/TemperatureChart';
 import WeatherTable from '@/components/WeatherTable';
+import DatabaseModal from '@/components/DatabaseModal';
 import { LoadingState, ErrorMessage } from '@/components/LoadingState';
 import { CountyWeather, RegionZone, WeatherApiResponse } from '@/types/weather';
 import { Layers } from 'lucide-react';
@@ -29,6 +30,7 @@ export default function HomePage() {
   const [updatedAt, setUpdatedAt] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isRefreshing, setIsRefreshing] = useState<boolean>(false);
+  const [isDbModalOpen, setIsDbModalOpen] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const fetchWeather = useCallback(async (isManualRefresh = false) => {
@@ -95,6 +97,13 @@ export default function HomePage() {
         updatedAt={updatedAt}
         onRefresh={() => fetchWeather(true)}
         isRefreshing={isRefreshing}
+        onOpenDb={() => setIsDbModalOpen(true)}
+      />
+
+      {/* Database Inspector Modal */}
+      <DatabaseModal
+        isOpen={isDbModalOpen}
+        onClose={() => setIsDbModalOpen(false)}
       />
 
       <main className="main-container">

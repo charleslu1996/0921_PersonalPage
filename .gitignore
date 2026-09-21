@@ -14,6 +14,11 @@ node_modules/
 /build
 dist/
 
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
 # Misc
 .DS_Store
 *.pem

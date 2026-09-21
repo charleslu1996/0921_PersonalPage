@@ -1,15 +1,16 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { CloudSun, RefreshCw, Activity, ShieldCheck, Clock } from 'lucide-react';
+import { CloudSun, RefreshCw, Activity, ShieldCheck, Clock, Database } from 'lucide-react';
 
 interface HeaderProps {
   updatedAt?: string;
   onRefresh: () => void;
   isRefreshing: boolean;
+  onOpenDb?: () => void;
 }
 
-export default function Header({ updatedAt, onRefresh, isRefreshing }: HeaderProps) {
+export default function Header({ updatedAt, onRefresh, isRefreshing, onOpenDb }: HeaderProps) {
   const [currentTime, setCurrentTime] = useState<string>('');
 
   useEffect(() => {
@@ -62,6 +63,18 @@ export default function Header({ updatedAt, onRefresh, isRefreshing }: HeaderPro
         <div className="update-tag">
           <span>氣象發布: {formattedUpdate}</span>
         </div>
+
+        {onOpenDb && (
+          <button
+            onClick={onOpenDb}
+            className="btn-open-db"
+            title="檢視本地氣象資料庫紀錄 (weather_forecasts)"
+            id="btn-open-database"
+          >
+            <Database size={16} />
+            <span>氣象資料庫</span>
+          </button>
+        )}
 
         <button
           onClick={onRefresh}
