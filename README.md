@@ -101,7 +101,7 @@ The platform combines spatial map analysis with an analytical weather dashboard,
   ```bash
   npm run dev
   ```
-  Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
+  Open your browser and navigate to [https://0921-personal-page.vercel.app/](https://0921-personal-page.vercel.app/).
 
 - **Production Build & Execution:**
   ```bash
